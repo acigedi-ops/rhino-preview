@@ -336,7 +336,8 @@ section.flush{padding-top:0}
 /* longer Russian and Ukrainian words */
 .ddgrid a{grid-template-columns:auto minmax(0,1fr)}
 .hgrid>*,.fcols>*,.chat>*,.prose,.prose>*,.hcopy>*,.qcard,.qflow,.qside{min-width:0}
-.ddgrid b,.tile span,.nl,.btn,h1,h2,h3{overflow-wrap:break-word;hyphens:auto}
+.ddgrid b,.tile span,.nl,.btn,h1,h2,h3{overflow-wrap:break-word}
+html:not([lang=en]) :is(.ddgrid b,.tile span,.nl,.btn,h1,h2,h3){hyphens:auto}
 @media (max-width:920px){.ddgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .crumbs{flex-wrap:wrap;row-gap:2px}.crumbs>*{white-space:nowrap}.crumbs>[aria-current]{white-space:normal}
 @media (max-width:920px){.nav{justify-content:flex-start}.nav>*{flex-shrink:0}}
