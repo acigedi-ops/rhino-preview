@@ -1,12 +1,13 @@
 
 (function(){
+var L=window.I18N||{};function T(s){return L[s]||s}
 var $=function(s,r){return (r||document).querySelector(s)},$$=function(s,r){return [].slice.call((r||document).querySelectorAll(s))};
 function toast(t){var e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(e._t);e._t=setTimeout(function(){e.classList.remove('on')},3200)}
 function store(k,v){try{sessionStorage.setItem(k,v)}catch(e){}}function load(k){try{return sessionStorage.getItem(k)}catch(e){return null}}
 // open now (Pacific time, Mon-Fri 8-18)
 try{var p=new Intl.DateTimeFormat('en-US',{timeZone:'America/Los_Angeles',weekday:'short',hour:'numeric',hour12:false}).formatToParts(new Date()),w,h;
 p.forEach(function(x){if(x.type==='weekday')w=x.value;if(x.type==='hour')h=+x.value%24});var o=['Sat','Sun'].indexOf(w)<0&&h>=9&&h<18;
-$$('[data-open]').forEach(function(d){d.classList.toggle('on',o)});$$('[data-open-txt]').forEach(function(t){t.textContent=o?'Agents available now':'Closed now · opens 9am PT'})}catch(e){}
+$$('[data-open]').forEach(function(d){d.classList.toggle('on',o)});$$('[data-open-txt]').forEach(function(t){t.textContent=T(o?'Agents available now':'Closed now · opens 9am PT')})}catch(e){}
 // coverage dropdown (desktop)
 var dd=$('.dd'),db=$('.ddbtn');if(dd){var hov=matchMedia('(hover:hover) and (min-width:921px)');
  function setdd(o){dd.classList.toggle('open',o);db.setAttribute('aria-expanded',o)}
@@ -19,11 +20,11 @@ var m=$('.menu'),n=$('#nav');if(m){m.addEventListener('click',function(){var x=m
 $$('a',n).forEach(function(a){a.addEventListener('click',function(){m.setAttribute('aria-expanded','false');n.classList.remove('open');document.body.classList.remove('mopen')})})}
 // "have this handy" hint
 function need(form){var c=form.querySelector('input[name=cov]:checked'),b=$('[data-need-title]',form),s=$('[data-need]',form);if(!b)return;
- var d=c&&COV[c.value];if(d){b.textContent='For '+d.n.toLowerCase().replace('sr-22','SR-22')+', have this handy:';s.textContent=d.r.join(', ')}else{b.textContent='Not sure?';s.textContent="Pick this and tell us what's going on. We'll figure out the right coverage."}}
+ var d=c&&COV[c.value];if(d){b.textContent=T('For {n}, have this handy:').replace('{n}',d.n.toLowerCase().replace('sr-22','SR-22'));s.textContent=d.r.join(', ')}else{b.textContent=T('Not sure?');s.textContent=T("Pick this and tell us what's going on. We'll figure out the right coverage.")}}
 // quick-start forms (home, SR-22 page) -> quote.html
 $$('form[data-start]').forEach(function(f){
  $$('input[name=cov]',f).forEach(function(r){r.addEventListener('change',function(){need(f)})});need(f);
- f.addEventListener('submit',function(e){e.preventDefault();var z=f.querySelector('[name=zip]');if(!/^\d{5}$/.test(z.value)){z.focus();z.closest('.field').classList.add('bad');toast('Enter a 5-digit ZIP code.');return}
+ f.addEventListener('submit',function(e){e.preventDefault();var z=f.querySelector('[name=zip]');if(!/^\d{5}$/.test(z.value)){z.focus();z.closest('.field').classList.add('bad');toast(T('Enter a 5-digit ZIP code.'));return}
   var c=f.querySelector('[name=cov]:checked')||f.querySelector('[name=cov]');store('rh_zip',z.value);var car=f.querySelector('[name=car]:checked');if(car)store('rh_car',car.value);
   location.href='quote.html#'+(c?c.value:'auto')});
  var z=f.querySelector('[name=zip]');z.addEventListener('input',function(){z.value=z.value.replace(/\D/g,'').slice(0,5);z.closest('.field').classList.remove('bad')});
@@ -34,21 +35,22 @@ var h=(location.hash||'').slice(1);var pre=q.querySelector('input[name=cov][valu
 var zz=load('rh_zip');if(zz)$('#qz').value=zz;var cc=load('rh_car');if(cc){var ce=q.querySelector('input[name=car][value="'+cc+'"]');if(ce)ce.checked=true}
 $$('input[name=cov]',q).forEach(function(r){r.addEventListener('change',function(){need(q)})});need(q);
 function show(){steps.forEach(function(s){s.hidden=+s.dataset.step!==step});$$('.prog i',q).forEach(function(i,k){i.classList.toggle('on',k<step)});
- $('#stepno').textContent=step<4?'Step '+step+' of 3':'Done';back.hidden=step===1||step===4;next.hidden=step===4;
- next.innerHTML=(step===3?'Send my quote request ':'Continue ')+'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+ $('#stepno').textContent=step<4?T('Step {n} of 3').replace('{n}',step):T('Done');back.hidden=step===1||step===4;next.hidden=step===4;
+ next.innerHTML=T(step===3?'Send my quote request':'Continue')+' '+'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
  var c=q.querySelector('input[name=cov]:checked').value;$$('[data-for]',q).forEach(function(d){d.classList.toggle('show',d.dataset.for.split(' ').indexOf(c)>=0)});
  if(step>1){var t=steps[step-1].querySelector('h1,h2');if(t){t.setAttribute('tabindex','-1');t.focus({preventScroll:true})}q.scrollIntoView({behavior:'smooth',block:'start'})}}
 function valid(){var ok=true;$$('.qs[data-step="'+step+'"] [required]',q).forEach(function(i){var v=i.value.trim(),good=v!=='';
  if(i.type==='checkbox')good=i.checked;if(i.hasAttribute('data-zip'))good=/^\d{5}$/.test(v);if(i.hasAttribute('data-phone'))good=v.replace(/\D/g,'').length>=10;
  var fl=i.closest('.field');if(fl)fl.classList.toggle('bad',!good);if(i.type==='checkbox')$('[data-consent-err]').classList.toggle('on',!good);
  if(!good&&ok){ok=false;i.focus()}});return ok}
-q.addEventListener('submit',function(e){e.preventDefault();if(!valid())return;if(step===3){$('[data-name]',q).textContent=$('#qfn').value.trim();step=4;show();toast('Preview only: nothing was sent.');return}step++;show()});
+q.addEventListener('submit',function(e){e.preventDefault();if(!valid())return;if(step===3){$('[data-name]',q).textContent=$('#qfn').value.trim();step=4;show();toast(T('Preview only: nothing was sent.'));return}step++;show()});
 back.addEventListener('click',function(){step--;show()});
 $('#qz').addEventListener('input',function(e){e.target.value=e.target.value.replace(/\D/g,'').slice(0,5)});
 show();
 })();
 
 (function(){
+var L=window.I18N||{};function T(s){return L[s]||s}
 var $=function(s,r){return (r||document).querySelector(s)},$$=function(s,r){return [].slice.call((r||document).querySelectorAll(s))};
 function toast(t){var e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(e._t);e._t=setTimeout(function(){e.classList.remove('on')},3200)}
 // carry the hero's extra question into the quote notes
@@ -58,7 +60,7 @@ var qn=$('#qn');if(qn){try{var v=sessionStorage.getItem('rh_note');if(v){qn.valu
 $$('form[data-simple]').forEach(function(f){f.addEventListener('submit',function(e){e.preventDefault();var ok=true;
  $$('[required]',f).forEach(function(i){if(i.closest('[hidden]'))return;var v=i.value.trim(),g=v!=='';if(i.hasAttribute('data-phone'))g=v.replace(/\D/g,'').length>=10;
   var fl=i.closest('.field');if(fl)fl.classList.toggle('bad',!g);if(!g&&ok){ok=false;i.focus()}});
- if(!ok)return;var d=f.nextElementSibling;f.hidden=true;d.hidden=false;d.focus();toast('Preview only: nothing was sent.')})});
+ if(!ok)return;var d=f.nextElementSibling;f.hidden=true;d.hidden=false;d.focus();toast(T('Preview only: nothing was sent.'))})});
 // guide filters
 var gc=$('#gcards');if(gc){$$('.chip').forEach(function(c){c.addEventListener('click',function(){var f=c.dataset.f;$$('.chip').forEach(function(x){x.setAttribute('aria-pressed',x===c)});$$('.gcard',gc).forEach(function(g){g.hidden=f!=='all'&&g.dataset.cat!==f})})})}
 // client request picker
@@ -67,4 +69,18 @@ var st=$('#s-type');if(st){function sync(){$$('[data-svc]').forEach(function(x){
  function pick(k){if(k==='pay'){$('#pay').scrollIntoView({behavior:'smooth',block:'center'});return}st.value=k;sync()}
  $$('[data-req]').forEach(function(a){a.addEventListener('click',function(){pick(a.dataset.req)})});
  var h=location.hash.slice(1);if(h&&st.querySelector('option[value="'+h+'"]')){st.value=h;sync();setTimeout(function(){$('#request').scrollIntoView()},50)}}
+})();
+(function(){
+var sw=[].slice.call(document.querySelectorAll('[data-lang]')),lg=document.documentElement.lang||'en',alt={};
+function get(){try{return localStorage.getItem('rh_lang')}catch(e){return null}}function set(v){try{localStorage.setItem('rh_lang',v)}catch(e){}}
+sw.forEach(function(a){alt[a.dataset.lang]=a.getAttribute('href');a.addEventListener('click',function(){set(a.dataset.lang)})});
+var p=get(),fresh=!document.referrer||document.referrer.indexOf(location.host)<0;
+if(p&&lg==='en'&&p!=='en'&&alt[p]&&fresh){location.replace(alt[p]);return}
+if(p||lg!=='en')return;
+var n=(navigator.languages||[navigator.language||'']).join(',').toLowerCase(),t=/(^|,)uk/.test(n)?'uk':/(^|,)ru/.test(n)?'ru':'';if(!t||!alt[t])return;
+var tx={ru:['Есть версия сайта на русском языке.','Открыть по-русски','Закрыть'],uk:['Є версія сайту українською мовою.','Відкрити українською','Закрити']}[t];
+var b=document.createElement('div');b.className='lsug';b.setAttribute('lang',t);
+b.innerHTML='<div class="w"><span>'+tx[0]+'</span><a href="'+alt[t]+'">'+tx[1]+'</a><button type="button" aria-label="'+tx[2]+'">×</button></div>';
+b.querySelector('a').addEventListener('click',function(){set(t)});b.querySelector('button').addEventListener('click',function(){set('en');b.remove()});
+document.body.insertBefore(b,document.body.firstChild);
 })();
