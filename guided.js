@@ -89,3 +89,5 @@ b.innerHTML='<div class="w"><span>'+tx[0]+'</span><a href="'+alt[t]+'">'+tx[1]+'
 b.querySelector('a').addEventListener('click',function(){set(t)});b.querySelector('button').addEventListener('click',function(){set('en');b.remove()});
 document.body.insertBefore(b,document.body.firstChild);
 })();
+(function(){var f=document.getElementById('start');if(!f||!('IntersectionObserver' in window))return;
+new IntersectionObserver(function(e){document.body.classList.toggle('atform',e[0].isIntersecting)},{rootMargin:'0px 0px -80px 0px'}).observe(f)})();
