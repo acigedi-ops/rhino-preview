@@ -71,6 +71,11 @@ var st=$('#s-type');if(st){function sync(){$$('[data-svc]').forEach(function(x){
  var h=location.hash.slice(1);if(h&&st.querySelector('option[value="'+h+'"]')){st.value=h;sync();setTimeout(function(){$('#request').scrollIntoView()},50)}}
 })();
 (function(){
+var lb=document.querySelector('.lbtn'),lp=document.getElementById('lpop');
+if(lb&&lp){function lset(o){lb.setAttribute('aria-expanded',o);lp.hidden=!o}
+ lb.addEventListener('click',function(e){e.stopPropagation();lset(lp.hidden)});
+ document.addEventListener('click',function(e){if(!lp.hidden&&!lp.contains(e.target))lset(false)});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!lp.hidden){lset(false);lb.focus()}})}
 var sw=[].slice.call(document.querySelectorAll('[data-lang]')),lg=document.documentElement.lang||'en',alt={};
 function get(){try{return localStorage.getItem('rh_lang')}catch(e){return null}}function set(v){try{localStorage.setItem('rh_lang',v)}catch(e){}}
 sw.forEach(function(a){alt[a.dataset.lang]=a.getAttribute('href');a.addEventListener('click',function(){set(a.dataset.lang)})});
