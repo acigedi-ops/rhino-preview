@@ -371,4 +371,5 @@ html:not([lang=en]) .btn .ic{flex:none}
 .lpop a b{width:28px;font-size:13px;color:var(--soft);letter-spacing:.04em}
 .lpop a[aria-current]{background:var(--bg)}.lpop a[aria-current]::after{content:"✓";margin-left:auto;font-weight:800}
 @media (max-width:920px){.mlangs{display:flex!important}.hlang{display:block}}
-@media (max-width:374px){.bar,.hright{gap:6px}.hq{padding:0 12px}header.top .logo img{height:28px;width:auto}.lbtn .ic{display:none}.lbtn{padding:0 11px}}
+@media (max-width:860px){.top .hq{display:none}.hright{gap:8px}}
+
