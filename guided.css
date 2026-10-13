@@ -388,15 +388,40 @@ html:not([lang=en]) .btn .ic{flex:none}
 .t4 .tile small{display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-top:2px}
 .q2 .zrow{margin-top:14px}
 .q2 .langnote{margin-top:12px;justify-content:center;text-align:center;color:var(--soft);font-weight:600;font-size:13px}
-.covgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-.cg{position:relative;display:flex;flex-direction:column;gap:6px;min-height:178px;padding:20px 20px 46px;border:1px solid var(--line);border-radius:18px;background:var(--card);text-decoration:none;transition:border-color .15s,transform .15s}
-.cg:hover{border-color:var(--y);transform:translateY(-2px)}
-.cg .ib{margin-bottom:8px}
-.cg b{font-size:17px;line-height:1.25}.cg .cs{display:none}
-.cg small{color:var(--soft);font-size:14px;line-height:1.45}
-.cg>.ic{position:absolute;left:20px;bottom:18px;width:18px;height:18px;color:var(--y)}
-.cg.ask{background:transparent;border-style:dashed;border-color:var(--line2)}
-.cg.ask .ib{background:var(--y);color:#171614}
+.index{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:clamp(28px,5vw,72px);border-top:1px solid var(--line)}
+.ix{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;column-gap:16px;row-gap:2px;align-items:center;padding:20px 4px;border-bottom:1px solid var(--line);text-decoration:none}
+.ix>.ic{grid-row:span 2;width:26px;height:26px;color:var(--y)}
+.ix b{font-size:19px;line-height:1.25;grid-column:2}.ix .cs{display:none}
+.ix small{grid-column:2;color:var(--soft);font-size:14.5px;line-height:1.4}
+.ix .go{grid-column:3;grid-row:1/span 2;display:grid;place-items:center;width:38px;height:38px;border-radius:50%;border:1px solid var(--line2);transition:.15s}
+.ix .go .ic{width:16px;height:16px}
+.ix:hover .go{background:var(--y);border-color:var(--y);color:#171614}
+.ix:hover b{color:var(--y)}
+.ix.ask b{color:var(--y)}
+.csplit{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:clamp(24px,5vw,72px);align-items:center}
+.csplit h2{margin-top:8px;font-size:clamp(28px,3.6vw,42px);font-weight:800}.lead2{margin:12px 0 0;color:var(--soft)}
+.pills{display:flex;flex-wrap:wrap;gap:10px}
+.pills a{display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 20px 0 14px;border-radius:99px;background:var(--card);border:1px solid var(--line2);text-decoration:none;font-weight:700;font-size:15.5px;transition:.15s}
+.pills a .ic{width:20px;height:20px;padding:6px;box-sizing:content-box;border-radius:50%;background:var(--y);color:#171614}
+.pills a:hover{background:#171614;border-color:#171614;color:#fff}
+.quotes{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:clamp(28px,5vw,72px);align-items:start}
+.quotes figure{margin:0}
+.qbig{position:relative;padding-top:8px}
+.qbig blockquote{margin:14px 0 18px;font-size:clamp(26px,3.2vw,40px);font-weight:800;line-height:1.18;letter-spacing:-.02em;text-wrap:balance}
+.qbig figcaption,.qs2 figcaption{color:var(--soft);font-size:14.5px}.quotes figcaption b{color:var(--ink)}
+.qmore{display:grid;border-left:1px solid var(--line);padding-left:clamp(20px,3vw,40px)}
+.qs2{padding-block:18px}.qs2+.qs2{border-top:1px solid var(--line)}
+.qs2 blockquote{margin:0 0 10px;font-size:17px;font-weight:600;line-height:1.45}
+.gfeat{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(20px,4vw,48px);align-items:stretch}
+.gbig{display:flex;flex-direction:column;gap:12px;padding:clamp(24px,3vw,36px);border-radius:24px;background:var(--y);color:#171614;text-decoration:none;min-height:280px}
+.gbig .tag{color:#171614;opacity:.7}.gbig h3{font-size:clamp(24px,2.6vw,32px);line-height:1.15;letter-spacing:-.02em}
+.gbig p{margin:0;flex:1;color:#3a3833}.gbig .more{display:inline-flex;align-items:center;gap:8px;font-weight:800}
+.gbig:hover{background:var(--y-h)}
+.glist{display:grid;align-self:center;border-top:1px solid var(--line)}
+.glist a{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:16px;row-gap:4px;align-items:center;padding:22px 0;border-bottom:1px solid var(--line);text-decoration:none}
+.glist .tag{grid-column:1}.glist b{grid-column:1;font-size:19px;line-height:1.3}
+.glist .go{grid-column:2;grid-row:1/span 2;display:grid;place-items:center;width:38px;height:38px;border-radius:50%;border:1px solid var(--line2)}
+.glist .go .ic{width:16px;height:16px}.glist a:hover .go{background:var(--y);border-color:var(--y);color:#171614}
 .qa{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.7fr);gap:clamp(28px,6vw,90px);align-items:start}
 .qah{display:grid;gap:12px;justify-items:start;position:sticky;top:110px}
 .qah p{margin:0;color:var(--soft);max-width:34ch}
@@ -416,12 +441,24 @@ body.atform .mb{transform:translateY(110%)}
  .hero2 .sub{font-size:16.5px;margin-top:10px}
  .q2{padding:20px}
  .t4 .tile span{min-height:84px;padding:12px 14px;font-size:16px}
- .covgrid{gap:10px}
- .cg{min-height:60px;padding:10px 12px;gap:10px;border-radius:14px;flex-direction:row;align-items:center}
- .cg .ib{width:34px;height:34px;border-radius:10px;margin:0;flex:none}
- .cg .ib .ic{width:17px;height:17px}
- .cg b{display:none}.cg .cs{display:block;font-size:15px;line-height:1.2}
- .cg small,.cg>.ic{display:none}
+ .index{grid-template-columns:1fr}
+ .ix{padding:12px 2px;column-gap:14px}
+ .ix>.ic{width:22px;height:22px;grid-row:auto}
+ .ix b{display:none}.ix .cs{display:block;font-size:16.5px}
+ .ix small{display:none}
+ .ix .go{grid-row:auto;width:32px;height:32px}
+ .csplit{grid-template-columns:1fr;gap:18px}
+ .pills{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .csplit h2{font-size:clamp(25px,7vw,30px)}
+ .pills a{min-height:52px;padding:8px 10px 8px 8px;font-size:14px;gap:8px;line-height:1.2;border-radius:16px}
+ .pills a span{min-width:0;overflow-wrap:break-word;hyphens:auto}
+ .pills a .ic{width:17px;height:17px;padding:5px;flex:none}
+ .quotes,.gfeat{grid-template-columns:1fr;gap:8px}
+ .qbig blockquote{font-size:25px;margin:10px 0 14px}
+ .qmore{border-left:0;padding-left:0;border-top:1px solid var(--line);margin-top:18px}
+ .gbig{min-height:0;padding:22px;gap:8px}.gbig h3{font-size:22px}
+ .glist{border-top:0}
+ .glist a{padding:16px 0}.glist b{font-size:16.5px}
  .qa{grid-template-columns:1fr;gap:22px}
  .qah{position:static}
  .qah .btn{display:none}
