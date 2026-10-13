@@ -435,12 +435,12 @@ body.atform .mb{transform:translateY(110%)}
  .hero2 .sub{font-size:16.5px;margin-top:10px}
  .q2{padding:20px}
  .t4 .tile span{min-height:84px;padding:12px 14px;font-size:16px}
- .index{grid-template-columns:1fr}
- .ix{padding:12px 2px;column-gap:14px}
+ .index{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:18px}
+ .ix{grid-template-columns:auto minmax(0,1fr);padding:15px 2px;column-gap:10px;min-height:60px}
  .ix>.ic{width:22px;height:22px;grid-row:auto}
- .ix b{display:none}.ix .cs{display:block;font-size:16.5px}
+ .ix b{display:none}.ix .cs{display:block;font-size:16px;line-height:1.25;overflow-wrap:break-word;hyphens:auto}
  .ix small{display:none}
- .ix .go{grid-row:auto;width:32px;height:32px}
+ .ix .go{display:none}
  .quotes,.gfeat{grid-template-columns:1fr;gap:8px}
  .qbig blockquote{font-size:25px;margin:10px 0 14px}
  .qmore{border-left:0;padding-left:0;border-top:1px solid var(--line);margin-top:18px}
