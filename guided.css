@@ -491,3 +491,4 @@ body.atform .mb{transform:translateY(110%)}
 :is(.qcard,.band,.end) .bub{background:#f1efe9}
 :is(.qcard,.band,.end) .bub.me{background:var(--y)}
 .phero{border-bottom-color:var(--line)}
+.band+.endsec,.band+#call{padding-top:clamp(48px,6vw,88px)}
