@@ -11,8 +11,8 @@ $$('[data-open]').forEach(function(d){d.classList.toggle('on',o)});$$('[data-ope
 // coverage dropdown (desktop)
 var dd=$('.dd'),db=$('.ddbtn');if(dd){var hov=matchMedia('(hover:hover) and (min-width:921px)');
  function setdd(o){dd.classList.toggle('open',o);db.setAttribute('aria-expanded',o)}
- db.addEventListener('click',function(){setdd(!dd.classList.contains('open'))});
- dd.addEventListener('mouseenter',function(){if(hov.matches)setdd(true)});dd.addEventListener('mouseleave',function(){if(hov.matches)setdd(false)});
+ var ddt;db.addEventListener('click',function(){if(hov.matches&&dd.classList.contains('open')){location.href='services.html';return}setdd(!dd.classList.contains('open'))});
+ dd.addEventListener('mouseenter',function(){clearTimeout(ddt);if(hov.matches)setdd(true)});dd.addEventListener('mouseleave',function(){if(hov.matches)ddt=setTimeout(function(){setdd(false)},250)});
  document.addEventListener('click',function(e){if(!dd.contains(e.target))setdd(false)});
  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&dd.classList.contains('open')){setdd(false);db.focus()}})}
 // mobile menu

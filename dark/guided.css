@@ -35,6 +35,7 @@ h1,h2,h3{margin:0;letter-spacing:-.025em;line-height:1.1;text-wrap:balance}
 .dd.open .ddbtn .ic{transform:rotate(180deg)}
 .ddp{display:none;position:absolute;top:calc(100% + 10px);left:-8px;width:min(640px,90vw);background:var(--card);border:1px solid var(--line);border-radius:20px;padding:12px;box-shadow:0 30px 60px -24px rgba(30,25,10,.3)}
 .dd.open .ddp{display:block}
+@media (min-width:921px){.ddp::after{content:"";position:absolute;left:0;right:0;bottom:100%;height:14px}}
 .ddgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px}
 .ddgrid a{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;padding:10px;border-radius:14px;text-decoration:none}
 .ddgrid a:hover{background:var(--bg)}.ddgrid .ib{width:38px;height:38px;border-radius:11px}.ddgrid .ib .ic{width:19px;height:19px}
