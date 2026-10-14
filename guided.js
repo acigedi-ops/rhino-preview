@@ -15,6 +15,15 @@ var dd=$('.dd'),db=$('.ddbtn');if(dd){var hov=matchMedia('(hover:hover) and (min
  dd.addEventListener('mouseenter',function(){clearTimeout(ddt);if(hov.matches)setdd(true)});dd.addEventListener('mouseleave',function(){if(hov.matches)ddt=setTimeout(function(){setdd(false)},250)});
  document.addEventListener('click',function(e){if(!dd.contains(e.target))setdd(false)});
  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&dd.classList.contains('open')){setdd(false);db.focus()}})}
+// website requests -> Rhino's Google Sheet (Apps Script web app); empty URL = preview mode
+var RQ={'id-cards':'ID cards', 'coi':'Certificate of insurance', 'pay':'Pay my bill', 'lender':'Lender proof', 'change':'Change my policy', 'renewal':'Renewal review', 'other':'Something else'},VN={'car:yes':'Yes','car:no':'No, non-owner / broadform'};var FORM_URL='',FK={cov:'Coverage',zip:'ZIP',car:'Owns a car',drivers:'Drivers',htype:'Type of home',closing:'Closing date',biz:'Business name',work:'Type of work',notes:'Message / notes',first:'First name',last:'Last name',phone:'Phone',email:'Email',via:'Best way to reach','c-name':'Name','c-phone':'Phone','c-email':'Email','c-topic':'Topic','c-msg':'Message / notes','s-type':'Request','s-name':'Name','s-phone':'Phone','s-email':'Email','s-policy':'Policy number','s-holder':'Certificate holder','s-holder-email':'Send certificate to','s-details':'Message / notes'};
+$$('form').forEach(function(f){var h=document.createElement('input');h.type='text';h.name='_honey';h.tabIndex=-1;h.autocomplete='off';h.style.display='none';h.setAttribute('aria-hidden','true');f.appendChild(h)});
+window.rhSend=function(f,kind,cb){if(!FORM_URL){toast(T('Preview only: nothing was sent.'));cb(true);return}var p={Type:kind};
+ $$('input,select,textarea',f).forEach(function(i){var k=FK[i.name]||FK[i.id];if(!k)return;var sec=i.closest('[data-for]');if(sec&&!sec.classList.contains('show'))return;if(i.closest('[data-svc][hidden]'))return;
+  if(i.type==='radio'){if(i.checked)p[k]=(VN[i.name+':'+i.value]||i.value)}else{var v=(i.value||'').trim();if(v)p[k]=RQ[v]&&i.id==='s-type'?RQ[v]:v}});
+ if(p['First name']||p['Last name'])p.Name=((p['First name']||'')+' '+(p['Last name']||'')).trim();
+ p.Language=(document.documentElement.lang||'en').toUpperCase();p.Page=location.pathname.split('/').pop();var hp=f.querySelector('[name=_honey]');if(hp&&hp.value)p._honey=hp.value;
+ fetch(FORM_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(p)}).then(function(r){return r.json()}).then(function(j){cb(!!(j&&j.ok))},function(){cb(false)})};
 // mobile menu
 var m=$('.menu'),n=$('#nav');if(m){m.addEventListener('click',function(){var x=m.getAttribute('aria-expanded')!=='true';m.setAttribute('aria-expanded',x);n.classList.toggle('open',x);document.body.classList.toggle('mopen',x)});
 $$('a',n).forEach(function(a){a.addEventListener('click',function(){m.setAttribute('aria-expanded','false');n.classList.remove('open');document.body.classList.remove('mopen')})})}
@@ -43,7 +52,7 @@ function valid(){var ok=true;$$('.qs[data-step="'+step+'"] [required]',q).forEac
  if(i.type==='checkbox')good=i.checked;if(i.hasAttribute('data-zip'))good=/^\d{5}$/.test(v);if(i.hasAttribute('data-phone'))good=v.replace(/\D/g,'').length>=10;
  var fl=i.closest('.field');if(fl)fl.classList.toggle('bad',!good);if(i.type==='checkbox')$('[data-consent-err]').classList.toggle('on',!good);
  if(!good&&ok){ok=false;i.focus()}});return ok}
-q.addEventListener('submit',function(e){e.preventDefault();if(!valid())return;if(step===3){$('[data-name]',q).textContent=$('#qfn').value.trim();step=4;show();toast(T('Preview only: nothing was sent.'));return}step++;show()});
+q.addEventListener('submit',function(e){e.preventDefault();if(!valid())return;if(step===3){if(q._busy)return;q._busy=1;next.disabled=true;next.textContent=T('Sending…');window.rhSend(q,'Quote request',function(ok){q._busy=0;next.disabled=false;if(!ok){show();toast(T("Sorry, that didn't send. Please call (800) 700-9181 or email info@rhino.insure."));return}$('[data-name]',q).textContent=$('#qfn').value.trim();step=4;show()});return}step++;show()});
 back.addEventListener('click',function(){step--;show()});
 $('#qz').addEventListener('input',function(e){e.target.value=e.target.value.replace(/\D/g,'').slice(0,5)});
 show();
@@ -60,7 +69,8 @@ var qn=$('#qn');if(qn){try{var v=sessionStorage.getItem('rh_note');if(v){qn.valu
 $$('form[data-simple]').forEach(function(f){f.addEventListener('submit',function(e){e.preventDefault();var ok=true;
  $$('[required]',f).forEach(function(i){if(i.closest('[hidden]'))return;var v=i.value.trim(),g=v!=='';if(i.hasAttribute('data-phone'))g=v.replace(/\D/g,'').length>=10;
   var fl=i.closest('.field');if(fl)fl.classList.toggle('bad',!g);if(!g&&ok){ok=false;i.focus()}});
- if(!ok)return;var d=f.nextElementSibling;f.hidden=true;d.hidden=false;d.focus();toast(T('Preview only: nothing was sent.'))})});
+ if(!ok||f._busy)return;var b=f.querySelector('[type=submit]'),bh=b.innerHTML;f._busy=1;b.disabled=true;b.textContent=T('Sending…');
+ window.rhSend(f,f.id==='service-form'?'Client request':'Contact message',function(s){f._busy=0;b.disabled=false;b.innerHTML=bh;if(!s){toast(T("Sorry, that didn't send. Please call (800) 700-9181 or email info@rhino.insure."));return}var d=f.nextElementSibling;f.hidden=true;d.hidden=false;d.focus()})})});
 // guide filters
 var gc=$('#gcards');if(gc){$$('.chip').forEach(function(c){c.addEventListener('click',function(){var f=c.dataset.f;$$('.chip').forEach(function(x){x.setAttribute('aria-pressed',x===c)});$$('.gcard',gc).forEach(function(g){g.hidden=f!=='all'&&g.dataset.cat!==f})})})}
 // client request picker
