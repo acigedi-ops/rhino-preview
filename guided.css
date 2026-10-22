@@ -388,6 +388,13 @@ html:not([lang=en]) .btn .ic{flex:none}
 @media (max-width:860px){.top .hq{display:none}.hright{gap:8px}}
 
 
+.prose .tbl{overflow-x:auto;margin:0 0 18px;border:1px solid var(--line2);border-radius:14px}
+.prose table{width:100%;border-collapse:collapse;font-size:15px;min-width:520px}
+.prose th,.prose td{padding:11px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+.prose thead th{font-size:14px;background:var(--card)}.prose tbody tr:last-child>*{border-bottom:0}
+.prose tbody th{font-weight:700}
+.qside .qcard{padding:22px}.qside .qcard .zrow{grid-template-columns:minmax(0,1fr)}
+
 .hero2{padding-block:clamp(28px,5vw,72px) clamp(36px,5vw,80px)}
 .hero2 .hgrid{align-items:center}
 .hero2 h1{font-size:clamp(36px,5.6vw,64px)}
