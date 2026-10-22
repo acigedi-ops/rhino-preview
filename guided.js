@@ -27,6 +27,9 @@ window.rhSend=function(f,kind,cb){var p={Type:kind};
  function mail(){if(p._honey){cb(false);return}var b=Object.keys(p).map(function(k){return k+': '+p[k]}).join('\n');location.href='mailto:info@rhino.insure?subject='+encodeURIComponent('Website: '+kind+(p.Name?' from '+p.Name:''))+'&body='+encodeURIComponent(b);cb(false,T("Sorry, that didn't go through. We opened your email app with your request: just press Send. No email app? Call (800) 700-9181."))}
  if(!FORM_URL){mail();return}
  fetch(FORM_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(p)}).then(function(r){return r.json()}).then(function(j){if(j&&j.ok)cb(true);else mail()},mail)};
+// hide the Call/Text bar while typing so it doesn't sit on top of the form above the keyboard
+function typing(e){return e&&e.matches&&e.matches('input:not([type=radio]):not([type=checkbox]),textarea,select')}
+document.addEventListener('focusin',function(e){if(typing(e.target))document.body.classList.add('typing')});document.addEventListener('focusout',function(e){if(typing(e.target))document.body.classList.remove('typing')});
 // mobile menu
 var m=$('.menu'),n=$('#nav');if(m){m.addEventListener('click',function(){var x=m.getAttribute('aria-expanded')!=='true';m.setAttribute('aria-expanded',x);n.classList.toggle('open',x);document.body.classList.toggle('mopen',x)});
 $$('a',n).forEach(function(a){a.addEventListener('click',function(){m.setAttribute('aria-expanded','false');n.classList.remove('open');document.body.classList.remove('mopen')})})}
