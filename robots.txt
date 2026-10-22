@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /light/
+Disallow: /dark/
+
+Sitemap: https://rhinoinsuranceco.com/sitemap.xml
